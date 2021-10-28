@@ -22,7 +22,8 @@ while true; do
 		# Convert the dump from binary data to utf-8
 		cat $DumpFile | tr -d '\0' > fullDump.txt
 		# Create full CSV format of sms dump
-		cp header.txt "$_report" && tail +10 fullDump.txt | awk -v RS='\n\n' '{printf "%s\n",$0}' | awk -v RS='#' '{gsub("\n", ":"); print}' | awk -F: '{print $1","$3","$5":"$6":"$7","$9","$13}' | sed  's/, /,/g' >> "$_report"
+		#cp header.txt "$_report" && tail +10 fullDump.txt | awk -v RS='\n\n' '{printf "%s\n",$0}' | awk -v RS='#' '{gsub("\n", ":"); print}' | awk -F: '{print $1","$3","$5":"$6":"$7","$9","$13}' | sed  's/, /,/g' >> "$_report"
+		cp header.txt "$_report" && tail +10 fullDump.txt | awk -v RS='\n\n' '{printf "%s\n",$0}' | awk -v RS='#' '{gsub("\n", ":"); print}' | awk -F: '{print $1"###"$3"###"$5":"$6":"$7"###"$9"###"$13}' | sed  's/### /#/g' >> "$_report"
 		rm fullDump.txt
 		read -p "Your new csv version of the sms dump named '"$_report"' has been created. Would you like to sort the dump by a phone number? y/n " _YesNo
 		if ([ "$_YesNo" == "y" ] || [ "$_YesNo" == "Y" ]);
